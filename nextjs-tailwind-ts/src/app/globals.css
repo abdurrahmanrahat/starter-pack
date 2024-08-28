@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.custom_button {
+    @apply px-10 py-6 rounded-xl
+}
+
+.custom_main_heading {
+    @apply text-[28px] md:text-[40px]
+}
+
+.custom_sub_heading {
+    @apply text-[20px] md:text-[24px]
+}
+
+.custom_paragraph {
+    @apply text-[15px] md:text-[16px]
+}
