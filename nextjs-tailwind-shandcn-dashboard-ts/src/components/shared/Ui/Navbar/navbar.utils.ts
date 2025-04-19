@@ -18,18 +18,9 @@ export const navItems = [
           { href: "/demo03", label: "Demo 03" },
         ],
       },
-      // {
-      //   label: "Pemo",
-      //   id: "pemo",
-      //   submenu: [
-      //     { href: "/demo01", label: "Pemo 01" },
-      //     { href: "/demo02", label: "Pemo 02" },
-      //     { href: "/demo03", label: "Pemo 03" },
-      //   ],
-      // },
     ],
   },
-  { href: `/dashboard/${admin}`, label: "Dashboard" },
+  // { href: `/dashboard/${admin}`, label: "Dashboard" },
 ];
 
 // export const dropdownNavItems = [

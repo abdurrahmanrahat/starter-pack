@@ -1,10 +1,20 @@
 import ActiveLink from "../ActiveLink";
 
 // Desktop Nav Item
-export function NavItem({ href, label }: { href: string; label: string }) {
+export function NavItem({
+  href,
+  label,
+  exact,
+}: {
+  href: string;
+  label: string;
+  exact: boolean;
+}) {
   return (
     <div className="rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:text-[#3a0579] transition-colors duration-300">
-      <ActiveLink href={href}>{label}</ActiveLink>
+      <ActiveLink exact={exact} href={href}>
+        {label}
+      </ActiveLink>
     </div>
   );
 }
@@ -13,10 +23,12 @@ export function NavItem({ href, label }: { href: string; label: string }) {
 export function MobileNavItem({
   href,
   label,
+  exact,
   onClick,
 }: {
   href: string;
   label: string;
+  exact: boolean;
   onClick?: () => void;
 }) {
   return (
@@ -24,7 +36,9 @@ export function MobileNavItem({
       onClick={onClick}
       className="rounded-md px-3 py-2 text-base font-medium text-gray-800 hover:text-[#3a0579] transition-colors duration-300"
     >
-      <ActiveLink href={href}>{label}</ActiveLink>
+      <ActiveLink exact={exact} href={href}>
+        {label}
+      </ActiveLink>
     </div>
   );
 }
