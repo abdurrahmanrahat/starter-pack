@@ -1,34 +1,46 @@
+import httpStatus from 'http-status';
 import config from '../../config';
-import { UserModel } from '../user/user.model';
+import AppError from '../../errors/AppError';
+import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import { createJwtToken } from './auth.utils';
 
 // post
 const loginUserIntoDb = async (payload: TLoginUser) => {
   // check if user already exists or not
-  const existingUser = await UserModel.isUserExistsByEmail(payload.email);
+  const existingUser = await User.isUserExistsByEmail(payload.email);
   if (!existingUser) {
-    throw new Error('Invalid email');
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
   }
 
   // compare hashed password
-  const isPasswordValid = await UserModel.isPasswordMatched(
+  const isPasswordValid = await User.isPasswordMatched(
     payload.password,
     existingUser.password,
   );
   if (!isPasswordValid) {
-    throw new Error('Invalid password');
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid password');
   }
 
   // Generate JWT token
-  const jwtPayload = { email: existingUser?.email };
-  const token = createJwtToken(
+  const jwtPayload = {
+    name: existingUser.name,
+    email: existingUser?.email,
+    role: existingUser.role,
+  };
+
+  const accessToken = createJwtToken(
     jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string,
   );
+  const refreshToken = createJwtToken(
+    jwtPayload,
+    config.jwt_refresh_secret as string,
+    config.jwt_refresh_expires_in as string,
+  );
 
-  return token;
+  return { accessToken, refreshToken };
 };
 
 export const AuthServices = {

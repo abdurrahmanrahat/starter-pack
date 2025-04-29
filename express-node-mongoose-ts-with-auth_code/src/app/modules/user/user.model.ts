@@ -1,17 +1,23 @@
 import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
+import { USER_ROLE } from './user.constants';
 import { TUser, UserStaticModel } from './user.interface';
 
 const userSchema = new Schema<TUser, UserStaticModel>({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  password: { type: String, required: true },
+  name: { type: String, required: [true, 'Name is required'] },
+  email: { type: String, required: [true, 'Email is required'], unique: true },
+  password: { type: String, required: [true, 'Password is required'] },
+  role: {
+    type: String,
+    enum: Object.keys(USER_ROLE),
+    default: USER_ROLE.user,
+  },
 });
 
 // check user exists or not
 userSchema.statics.isUserExistsByEmail = async function (email: string) {
-  const existingUser = await UserModel.findOne({ email });
+  const existingUser = await User.findOne({ email });
   return existingUser;
 };
 
@@ -46,4 +52,4 @@ userSchema.post('save', function (doc, next) {
 });
 
 // model
-export const UserModel = model<TUser, UserStaticModel>('User', userSchema);
+export const User = model<TUser, UserStaticModel>('User', userSchema);
