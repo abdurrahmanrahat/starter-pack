@@ -7,7 +7,7 @@ import { UserServices } from './user.service';
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const user = req.body;
 
-  const result = await UserServices.createUserInfoDb(user);
+  const result = await UserServices.createUserInfoDB(user);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -17,6 +17,18 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.gelAllUsersFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Users retrieved successfully',
+    data: result,
+  });
+});
+
 export const UserControllers = {
   createUser,
+  getAllUsers,
 };

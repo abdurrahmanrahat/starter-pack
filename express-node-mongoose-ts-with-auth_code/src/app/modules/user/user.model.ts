@@ -4,16 +4,25 @@ import config from '../../config';
 import { USER_ROLE } from './user.constants';
 import { TUser, UserStaticModel } from './user.interface';
 
-const userSchema = new Schema<TUser, UserStaticModel>({
-  name: { type: String, required: [true, 'Name is required'] },
-  email: { type: String, required: [true, 'Email is required'], unique: true },
-  password: { type: String, required: [true, 'Password is required'] },
-  role: {
-    type: String,
-    enum: Object.keys(USER_ROLE),
-    default: USER_ROLE.user,
+const userSchema = new Schema<TUser, UserStaticModel>(
+  {
+    name: { type: String, required: [true, 'Name is required'] },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+    },
+    password: { type: String, required: [true, 'Password is required'] },
+    role: {
+      type: String,
+      enum: Object.keys(USER_ROLE),
+      default: USER_ROLE.user,
+    },
   },
-});
+  {
+    timestamps: true,
+  },
+);
 
 // check user exists or not
 userSchema.statics.isUserExistsByEmail = async function (email: string) {

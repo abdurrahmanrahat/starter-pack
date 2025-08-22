@@ -4,7 +4,7 @@ import { TUser } from './user.interface';
 import { User } from './user.model';
 
 // post
-const createUserInfoDb = async (user: TUser) => {
+const createUserInfoDB = async (user: TUser) => {
   const existingUser = await User.findOne({ email: user.email });
 
   if (existingUser) {
@@ -15,6 +15,13 @@ const createUserInfoDb = async (user: TUser) => {
   return result;
 };
 
+// get
+const gelAllUsersFromDB = async () => {
+  const users = await User.find({});
+  return users;
+};
+
 export const UserServices = {
-  createUserInfoDb,
+  createUserInfoDB,
+  gelAllUsersFromDB,
 };

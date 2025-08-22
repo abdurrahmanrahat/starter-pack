@@ -7,7 +7,15 @@ const app: Application = express();
 
 // parsers
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = ['http://localhost:3000']; // frontend URL
+
+app.use(
+  cors({
+    origin: allowedOrigins, // must be explicit, not '*'
+    credentials: true, // allow cookies and credentials
+  }),
+);
 
 // application routes
 app.use('/api/v1', router);

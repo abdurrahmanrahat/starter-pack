@@ -1,1 +1,1 @@
-export const refreshAuthKey = 'myRefreshToken';
+export const refreshAuthKey = 'refreshToken';
