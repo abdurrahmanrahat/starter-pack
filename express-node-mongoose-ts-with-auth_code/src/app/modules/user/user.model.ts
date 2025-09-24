@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
 import { USER_ROLE } from './user.constants';
@@ -18,6 +18,7 @@ const userSchema = new Schema<TUser, UserStaticModel>(
       enum: Object.keys(USER_ROLE),
       default: USER_ROLE.user,
     },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,

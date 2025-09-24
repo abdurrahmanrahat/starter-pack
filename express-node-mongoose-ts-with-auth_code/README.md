@@ -61,7 +61,7 @@
 - `express`: Web framework for Node.js.
 - `mongoose`: mongodb object modeling for node.js.
 - `mongodb`: MongoDB driver for Node.js.
-- `bcrypt`: Library for hashing passwords.
+- `bcryptjs`: Library for hashing passwords.
 - `cors`: Express middleware for enabling CORS.
 - `dotenv`: Loads environment variables from .env file.
 - `jsonwebtoken`: Library for generating and verifying JWT tokens.

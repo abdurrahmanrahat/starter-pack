@@ -13,10 +13,18 @@ router.post(
   UserControllers.createUser,
 );
 
+router.get('/', auth(USER_ROLE.admin), UserControllers.getAllUsers);
+
 router.get(
-  '/',
+  '/get-me',
   auth(USER_ROLE.user, USER_ROLE.admin),
-  UserControllers.getAllUsers,
+  UserControllers.getMe,
+);
+
+router.patch(
+  '/:userId',
+  validateRequest(UserValidations.updateUserValidationSchema),
+  UserControllers.updateUser,
 );
 
 export const UserRoutes = router;
