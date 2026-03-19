@@ -1,7 +1,7 @@
+import { Toaster } from "@/components/ui/sonner";
 import Providers from "@/lib/providers/Providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ToastContainer } from "react-toastify";
 import "./globals.css";
 
 // const roboto = Roboto({
@@ -32,12 +32,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100`}
+        className={`${inter.className} antialiased bg-white dark:bg-deep-dark text-white dark:text-black`}
         suppressHydrationWarning
       >
         <Providers>
           {children}
-          <ToastContainer />
+          <Toaster richColors position="top-right" />
         </Providers>
       </body>
     </html>

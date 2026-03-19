@@ -1,16 +1,16 @@
 "use client";
 
+import { removeTokensFromCookies } from "@/app/actions/token";
 import { Button } from "@/components/ui/button";
-import { accessAuthKey, refreshAuthKey } from "@/constants/authKey";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { logout, useCurrentUser } from "@/redux/reducers/authSlice";
-import { removeUser } from "@/services/auth.services";
-import axios from "axios";
+import { useLogoutUser } from "@/hooks/useLogoutUser";
+import { useAppSelector } from "@/redux/hooks";
+import { useCurrentUser } from "@/redux/reducers/authSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import ActiveLink from "../ActiveLink";
 import Container from "../Container";
 import { navItems } from "./navbar.utils";
@@ -22,22 +22,19 @@ const Navbar = () => {
   const pathname = usePathname();
 
   const user = useAppSelector(useCurrentUser);
-  const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const logoutUser = useLogoutUser();
 
   const isAdmin = user?.role === "admin";
   const isStudent = user?.role === "user";
 
   // logout user
   const handleLogout = async () => {
-    // 🎯 remove HttpOnly cookie from client via API
-    await axios.post("/api/auth/remove-cookies", {
-      accessToken: accessAuthKey,
-      refreshToken: refreshAuthKey, // send more name for removing
-    });
-    dispatch(logout());
-    removeUser();
+    await removeTokensFromCookies();
+    logoutUser();
 
+    toast.success("Logged out successfully!");
     router.push("/");
   };
 
@@ -63,7 +60,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="relative w-full border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm dark:shadow-md"
+      className="relative w-full border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-deep-dark shadow-sm dark:shadow-md"
       ref={navRef}
     >
       <Container>
@@ -147,7 +144,7 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden absolute top-[64px] left-0 w-full z-[999] bg-white dark:bg-gray-900 border-b border-gray-300 dark:border-gray-700 backdrop-blur-sm"
+              className="lg:hidden absolute top-16 left-0 w-full z-999 bg-white dark:bg-deep-dark border-b border-gray-300 dark:border-gray-700 backdrop-blur-sm"
             >
               <div className="w-[90%] mx-auto py-4 flex flex-col space-y-4 text-gray-900 dark:text-gray-100">
                 {navItems.map((item, index) => (
